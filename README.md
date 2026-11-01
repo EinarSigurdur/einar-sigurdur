@@ -1,5 +1,8 @@
 # Portfolio — Einar Sigurður
 
+**Lifandi:** https://einar-sigurdur.vercel.app
+**Frumkóði:** https://github.com/EinarSigurdur/einar-sigurdur
+
 Ein síða, engar ytri tengingar, engin byggingarskref. HTML, CSS og 30 línur af JS.
 
 ## Skoða
