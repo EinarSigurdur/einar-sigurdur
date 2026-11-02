@@ -1,9 +1,21 @@
 (() => {
-  const items = document.querySelectorAll('[data-reveal]');
-  const revealAll = () => items.forEach((el) => el.classList.add('is-visible'));
+  // Sía á vöruumbúðir eftir vörumerki
+  const chips = document.querySelectorAll('.filters .chip');
+  const packItems = document.querySelectorAll('.pack__item');
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      chips.forEach((c) => c.classList.remove('on'));
+      chip.classList.add('on');
+      const brand = chip.dataset.brand;
+      packItems.forEach((item) => {
+        item.hidden = !(brand === 'all' || item.dataset.brand === brand);
+      });
+    });
+  });
 
-  // Ef eitthvað fer úrskeiðis er allt sýnilegt — innihald má aldrei hverfa.
-  if (!items.length || !("IntersectionObserver" in window)) return;
+  // Innihald má aldrei hverfa: án JS eða IO er allt sýnilegt.
+  const reveals = document.querySelectorAll('[data-reveal]');
+  if (!reveals.length || !('IntersectionObserver' in window)) return;
 
   document.documentElement.classList.add('js-reveal');
 
@@ -16,14 +28,13 @@
     });
   }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 });
 
-  items.forEach((el, i) => {
+  reveals.forEach((el, i) => {
     el.style.transitionDelay = `${Math.min(i % 3, 2) * 60}ms`;
     io.observe(el);
   });
 
-  // Öryggisnet: eftir 1,5 sekúndur er allt sem er í skjánum sýnilegt.
   setTimeout(() => {
-    items.forEach((el) => {
+    reveals.forEach((el) => {
       const r = el.getBoundingClientRect();
       if (r.top < window.innerHeight * 1.2) el.classList.add('is-visible');
     });
